@@ -19,7 +19,7 @@ char NODE_ID[16];
 long lastPulse = 0;
 
 //Bounce definition
-Bounce debouncer = Bounce(); 
+Bounce debouncer = Bounce();  
 int oldInput = -1;
 
 //Variables
