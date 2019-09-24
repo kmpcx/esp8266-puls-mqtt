@@ -7,7 +7,8 @@
 #include <ESP8266HTTPClient.h>
 #include <ESP8266httpUpdate.h>
 #include <ESP8266Ping.h>
-#include "config.h"
+
+#include configFile
 
 // --------------------- Configuration --------------------- Don't change anything below this line ---------------------
 
