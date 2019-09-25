@@ -1,8 +1,8 @@
 // --------------------- Sensor Settings
 
 const char* MQTT_LOCATION = "ber";
-const char* PLANT = "SAL";
-const char* SKETCH_VERSION = "15";
+const char* PLANT = "SALA1";
+const char* SKETCH_VERSION = "15A1";
 
 #define MACHINE_PIN  3 //SW02 = 5 //SW01 = 13 //LF = 3
 
@@ -30,11 +30,11 @@ IPAddress dns(10,49,13,1);  //DNS
 #define MQTT_PORT 1883
 #define MQTT_SECURE true
 #define MQTT_USERNAME "ber"
-#define MQTT_PASSWORD "***REMOVED***"
+#define MQTT_PASSWORD "***REMOVED***^"
 
 
 // --------------------- Function Settings
 
-bool usePing = false;
+bool usePing = true;
 bool useNTP = false; //Not in use
 bool useOTAonStart = false;
