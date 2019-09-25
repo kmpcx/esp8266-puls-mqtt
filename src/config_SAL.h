@@ -21,7 +21,7 @@ IPAddress gateway(10,49,13,1);   //IP Address of your WiFi Router (Gateway)
 IPAddress subnet(255, 255, 255, 0);  //Subnet mask
 IPAddress dns(10,49,13,1);  //DNS
 
-#define updateServer "188.40.218.84"
+#define updateServer "http://update.location/"
 
 
 // --------------------- MQTT Settings
@@ -35,6 +35,6 @@ IPAddress dns(10,49,13,1);  //DNS
 
 // --------------------- Function Settings
 
-bool usePing = true;
+bool usePing = false;
 bool useNTP = false; //Not in use
 bool useOTAonStart = false;
