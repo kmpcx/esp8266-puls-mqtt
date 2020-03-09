@@ -1,7 +1,7 @@
 // --------------------- Sensor Settings
 
-const char* MQTT_LOCATION = "KMPC";
-const char* PLANT = "KMPC";
+const char* MQTT_LOCATION = "cst";
+const char* PLANT = "CST";
 const char* SKETCH_VERSION = "15";
 
 #define MACHINE_PIN  3 //SW02 = 5 //SW01 = 13 //LF = 3
@@ -12,7 +12,7 @@ const int thresholdStoppedMinutes = 10; //When for X minutes no pulses detected
 
 // --------------------- Network Settings
 
-#define WIFI_SSID "KMPC"
+#define WIFI_SSID "SSID"
 #define WIFI_PASSWORD "***REMOVED***"
 
 bool IPStatic = false;
@@ -31,7 +31,6 @@ IPAddress dns(10,49,13,1);  //DNS
 #define MQTT_SECURE true
 #define MQTT_USERNAME "lf-cst-mqtt-sensor"
 #define MQTT_PASSWORD "***REMOVED***"
-
 
 // --------------------- Function Settings
 
