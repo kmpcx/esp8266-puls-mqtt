@@ -185,11 +185,11 @@ void onMqttConnect(bool sessionPresent) {
   strcat(topic, "/version");
   mqttClient.publish(topic, 2, false, SKETCH_VERSION);
 
-  heartbeatTimer.attach(30, sendHeartbeat);
-
   if(checkWiFi){
     checkWiFiTimer.attach(10, sendWiFiStatus);
   }
+
+  heartbeatTimer.attach(30, sendHeartbeat);
 
   strcpy(startString,SKETCH_VERSION);
   strcat(startString,"-");
