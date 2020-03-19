@@ -29,6 +29,7 @@ bool mqttConnected = false;
 int mqttDisconnects = 0;
 bool updateOTA = false;
 bool updateOTAPlant = false;
+bool firstConnect = true;
 
 unsigned long lastLED = 0;
 int countStatusLED = 0;
@@ -40,6 +41,8 @@ int ledGreenState = LOW;
 
 unsigned long lastHeartbeat = 0;
 Ticker heartbeatTimer;
+
+Ticker checkWiFiTimer;
 
 Ticker rebootTimer;
 
@@ -59,6 +62,7 @@ char MQTT_SUBSCRIBE_PLANT[25];
 char MQTT_TOPIC_REQ[25];
 
 char MQTT_TOPIC_HEARTBEAT[25];
+char MQTT_TOPIC_WIFI[25];
 char MQTT_TOPIC_PULSE[25];
 char MQTT_TOPIC_COUNT[25];
 char MQTT_TOPIC_ONLINE[25];
@@ -80,6 +84,9 @@ void mqttTopics(){
   
   strcpy(MQTT_TOPIC_HEARTBEAT,MQTT_TOPIC);
   strcat(MQTT_TOPIC_HEARTBEAT,"/3/0");
+
+  strcpy(MQTT_TOPIC_WIFI,MQTT_TOPIC);
+  strcat(MQTT_TOPIC_WIFI,"/3/RSSI");
 
   strcpy(MQTT_TOPIC_ONLINE,MQTT_TOPIC);
   strcat(MQTT_TOPIC_ONLINE,"/3/1");
@@ -110,6 +117,14 @@ void sendHeartbeat(){
   uint16_t pubHeartbeat = mqttClient.publish(MQTT_TOPIC_HEARTBEAT, 1, false, "1");
   Serial.print("Publishing heartbeat with QoS 1, packetId: ");
   Serial.print(pubHeartbeat);
+}
+
+void sendWiFiStatus(){
+  long rssi = WiFi.RSSI();
+  String tmp = String(rssi);
+  uint16_t pubRSSI = mqttClient.publish(MQTT_TOPIC_WIFI, 1, false, (char*) tmp.c_str());
+  Serial.print("Publishing heartbeat with QoS 1, packetId: ");
+  Serial.print(pubRSSI);
 }
 
 void connectToMqtt() {
@@ -172,11 +187,19 @@ void onMqttConnect(bool sessionPresent) {
 
   heartbeatTimer.attach(30, sendHeartbeat);
 
+  if(checkWiFi){
+    checkWiFiTimer.attach(10, sendWiFiStatus);
+  }
+
   strcpy(startString,SKETCH_VERSION);
   strcat(startString,"-");
   strcat(startString,PLANT);
-  mqttClient.publish(MQTT_TOPIC_ONLINE, 2, true, startString);
+  if(firstConnect){
+    firstConnect = false;
+    mqttClient.publish(MQTT_TOPIC_ONLINE, 2, true, startString);
+  }
   mqttClient.publish(MQTT_TOPIC_ONLINE_WILL, 2, true, "1");
+  sendWiFiStatus();
 
   if(useOTAonStart){
     updateOTA = true;
@@ -211,6 +234,7 @@ void onMqttDisconnect(AsyncMqttClientDisconnectReason reason) {
   
   mqttConnected = false;
   heartbeatTimer.detach();
+  checkWiFiTimer.detach();
 
   if (WiFi.isConnected()) {
     mqttReconnectTimer.once(2, connectToMqtt);
