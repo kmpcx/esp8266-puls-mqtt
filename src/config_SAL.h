@@ -2,7 +2,7 @@
 
 const char* MQTT_LOCATION = "ber";
 const char* PLANT = "SALB1M";
-const char* SKETCH_VERSION = "17B1M";
+const char* SKETCH_VERSION = "17_B1M";
 
 #define MACHINE_PIN  3 //SW02 = 5 //SW01 = 13 //LF = 3
 
@@ -44,4 +44,4 @@ IPAddress dns(10,49,13,1);  //DNS
 bool usePing = true;
 bool useNTP = false; //Not in use
 bool useOTAonStart = false;
-bool checkWiFi = true;
+bool checkWiFi = false;
