@@ -37,4 +37,4 @@ IPAddress dns(10,49,13,1);  //DNS
 bool usePing = true;
 bool useNTP = false; //Not in use
 bool useOTAonStart = false;
-bool checkWiFi = false;
+bool checkWiFi = false; //Not in use
