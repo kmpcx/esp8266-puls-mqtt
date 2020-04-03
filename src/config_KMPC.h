@@ -38,3 +38,4 @@ bool usePing = true;
 bool useNTP = false; //Not in use
 bool useOTAonStart = false;
 bool checkWiFi = false; //Not in use
+bool testing = true; //Send every second a pulse

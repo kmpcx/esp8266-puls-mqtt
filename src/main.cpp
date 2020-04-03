@@ -11,7 +11,7 @@
 // --------------------- Configuration ---------------------
 
 char NODE_ID[16];
-const char* VERSION = "S1.0";
+const char* VERSION = "S1.1";
 
 #define LEDRED 0
 #define LEDGREEN 16
@@ -37,6 +37,7 @@ int ledGreenState = LOW;
 
 unsigned long lastHeartbeat = 0;
 Ticker heartbeatTimer;
+Ticker testTimer;
 
 Ticker rebootTimer;
 
@@ -98,6 +99,57 @@ void mqttTopics()
   strcat(MQTT_SUBSCRIBE_PLANT, "/sub/");
   strcat(MQTT_SUBSCRIBE_PLANT, PLANT);
   // strcat(MQTT_SUBSCRIBE_PLANT,"/#");
+}
+
+void pulse(bool test)
+{
+  //get current state of machine
+  debouncer.update();
+  // Get the update value
+  int input = debouncer.read();
+  if (test)
+  {
+    input = 0;
+  }
+  if (input != oldInput)
+  {
+    oldInput = input;
+    if (input == 0)
+    {
+      digitalWrite(LEDRED, HIGH);
+      if (count >= maxCount)
+      {
+        count = 0;
+      }
+      count++;
+      lastPulse = millis();
+      if (mqttClient.connected())
+      {
+        String req = "pulse";
+        uint16_t pubPulse = mqttClient.publish(MQTT_TOPIC_PULSE, (char *)req.c_str(), false);
+        Serial.print("Publishing pulse, packetId: ");
+        Serial.println(pubPulse);
+
+        String tmp = String(count);
+        uint16_t pubCount = mqttClient.publish(MQTT_TOPIC_COUNT, (char *)tmp.c_str(), true);
+        Serial.print("Publishing count, packetId: ");
+        Serial.println(pubCount);
+      }
+      else
+      {
+        Serial.print("Offline produced part - count: ");
+        Serial.println(count);
+      }
+    }
+    else
+    {
+      digitalWrite(LEDRED, LOW);
+    }
+  }
+}
+
+void testPulse(){
+   pulse(true);
 }
 
 void sendHeartbeat()
@@ -324,6 +376,9 @@ void setup()
   delay(1500);
 
   heartbeatTimer.attach(10, sendHeartbeat);
+  if(testing){
+    testTimer.attach(1, testPulse);
+  } 
 }
 
 void statusLED()
@@ -387,50 +442,6 @@ void statusLED()
   }
 }
 
-void pulse()
-{
-  //get current state of machine
-  debouncer.update();
-  // Get the update value
-  int input = debouncer.read();
-
-  if (input != oldInput)
-  {
-    oldInput = input;
-    if (input == 0)
-    {
-      digitalWrite(LEDRED, HIGH);
-      if (count >= maxCount)
-      {
-        count = 0;
-      }
-      count++;
-      lastPulse = millis();
-      if (mqttClient.connected())
-      {
-        String req = "pulse";
-        uint16_t pubPulse = mqttClient.publish(MQTT_TOPIC_PULSE, (char *)req.c_str(), false);
-        Serial.print("Publishing pulse, packetId: ");
-        Serial.println(pubPulse);
-
-        String tmp = String(count);
-        uint16_t pubCount = mqttClient.publish(MQTT_TOPIC_COUNT, (char *)tmp.c_str(), true);
-        Serial.print("Publishing count, packetId: ");
-        Serial.println(pubCount);
-      }
-      else
-      {
-        Serial.print("Offline produced part - count: ");
-        Serial.println(count);
-      }
-    }
-    else
-    {
-      digitalWrite(LEDRED, LOW);
-    }
-  }
-}
-
 void loop()
 {
   if (!mqttClient.connected())
@@ -451,7 +462,7 @@ void loop()
     mqttClient.loop();
   }
 
-  pulse();
+  pulse(false);
   statusLED();
   if (updateOTA)
   {
