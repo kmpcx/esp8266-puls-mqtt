@@ -2,6 +2,7 @@
 
 const char* MQTT_LOCATION = "KMPC";
 const char* PLANT = "KMPC";
+const char* SKETCH_VERSION = "17";
 
 #define MACHINE_PIN  3 //SW02 = 5 //SW01 = 13 //LF = 3
 
@@ -37,4 +38,4 @@ IPAddress dns(10,49,13,1);  //DNS
 bool usePing = true;
 bool useNTP = false; //Not in use
 bool useOTAonStart = false;
-bool checkWiFi = false; //Not in use
+bool checkWiFi = false;
