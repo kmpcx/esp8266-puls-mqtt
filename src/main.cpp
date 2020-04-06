@@ -41,6 +41,7 @@ int ledGreenState = LOW;
 
 unsigned long lastHeartbeat = 0;
 Ticker heartbeatTimer;
+Ticker testTimer;
 
 Ticker rebootTimer;
 
@@ -106,6 +107,51 @@ ESP8266WiFiMulti WiFiMulti;
 WiFiEventHandler wifiConnectHandler;
 WiFiEventHandler wifiDisconnectHandler;
 Ticker wifiReconnectTimer;
+
+void pulse(bool test) {
+  //get current state of machine
+  debouncer.update();
+  // Get the update value
+  int input = debouncer.read();
+
+  if (test)
+  {
+    input = 0;
+  }
+
+  if (input != oldInput) {
+    oldInput = input;
+    if ( input == 0) {
+      digitalWrite(LEDRED, HIGH);
+      if (count >= maxCount){
+        count = 0;
+      }
+      count ++;
+      lastPulse = millis();
+      if (mqttConnected) {
+        String req = "pulse";
+        uint16_t pubPulse = mqttClient.publish(MQTT_TOPIC_PULSE, 2, false, (char*) req.c_str());
+        Serial.print("Publishing pulse with QoS 2, packetId: ");
+        Serial.println(pubPulse);
+  
+        String tmp = String(count);
+        uint16_t pubCount = mqttClient.publish(MQTT_TOPIC_COUNT, 1, true, (char*) tmp.c_str());
+        Serial.print("Publishing count with QoS 1, packetId: ");
+        Serial.println(pubCount);
+      } else {
+        Serial.print("Offline produced part - count: ");
+        Serial.println(count);
+      }
+    } else {
+      digitalWrite(LEDRED, LOW);
+    }
+  }
+}
+
+void testPulse(){
+   pulse(true);
+}
+
 
 void sendHeartbeat(){
   long rssi = WiFi.RSSI();
@@ -174,6 +220,10 @@ void onMqttConnect(bool sessionPresent) {
   mqttClient.publish(topic, 2, false, SKETCH_VERSION);
 
   heartbeatTimer.attach(10, sendHeartbeat);
+  if(testing){
+    testTimer.attach(1, testPulse);
+  } 
+
 
   strcpy(startString,SKETCH_VERSION);
   strcat(startString,"-");
@@ -425,41 +475,6 @@ void statusLED() {
   }
 }
 
-void pulse() {
-  //get current state of machine
-  debouncer.update();
-  // Get the update value
-  int input = debouncer.read();
-
-  if (input != oldInput) {
-    oldInput = input;
-    if ( input == 0) {
-      digitalWrite(LEDRED, HIGH);
-      if (count >= maxCount){
-        count = 0;
-      }
-      count ++;
-      lastPulse = millis();
-      if (mqttConnected) {
-        String req = "pulse";
-        uint16_t pubPulse = mqttClient.publish(MQTT_TOPIC_PULSE, 2, false, (char*) req.c_str());
-        Serial.print("Publishing pulse with QoS 2, packetId: ");
-        Serial.println(pubPulse);
-  
-        String tmp = String(count);
-        uint16_t pubCount = mqttClient.publish(MQTT_TOPIC_COUNT, 1, true, (char*) tmp.c_str());
-        Serial.print("Publishing count with QoS 1, packetId: ");
-        Serial.println(pubCount);
-      } else {
-        Serial.print("Offline produced part - count: ");
-        Serial.println(count);
-      }
-    } else {
-      digitalWrite(LEDRED, LOW);
-    }
-  }
-}
-
 void loop() {
   if (!wifiConnected) {
     unsigned long now = millis();
@@ -470,7 +485,7 @@ void loop() {
         }
     }
   }
-  pulse();
+  pulse(false);
   statusLED();
   if(updateOTA){
     updateOTA = false;

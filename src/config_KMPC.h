@@ -2,7 +2,7 @@
 
 const char* MQTT_LOCATION = "KMPC";
 const char* PLANT = "KMPC";
-const char* SKETCH_VERSION = "17";
+const char* SKETCH_VERSION = "18";
 
 #define MACHINE_PIN  3 //SW02 = 5 //SW01 = 13 //LF = 3
 
@@ -29,7 +29,7 @@ IPAddress dns(10,49,13,1);  //DNS
 #define MQTT_HOST IPAddress(0,0,0,0)
 #define MQTT_PORT 1883
 #define MQTT_SECURE true
-#define MQTT_USERNAME "lf-self-mqtt-sensor"
+#define MQTT_USERNAME "lf-cst-mqtt-sensor"
 #define MQTT_PASSWORD "***REMOVED***"
 
 
@@ -39,3 +39,4 @@ bool usePing = true;
 bool useNTP = false; //Not in use
 bool useOTAonStart = false;
 bool checkWiFi = false;
+bool testing = true; //Send every second a pulse

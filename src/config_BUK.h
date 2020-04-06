@@ -2,7 +2,7 @@
 
 const char* MQTT_LOCATION = "ber";
 const char* PLANT = "BUK";
-const char* SKETCH_VERSION = "17";
+const char* SKETCH_VERSION = "18";
 
 #define MACHINE_PIN  3 //SW02 = 5 //SW01 = 13 //LF = 3
 
@@ -39,3 +39,4 @@ bool usePing = true;
 bool useNTP = false; //Not in use
 bool useOTAonStart = false;
 bool checkWiFi = false;
+bool testing = false; //Send every second a pulse
