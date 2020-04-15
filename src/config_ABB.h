@@ -2,7 +2,6 @@
 
 const char* MQTT_LOCATION = "ber";
 const char* PLANT = "ABB";
-const char* SKETCH_VERSION = "18";
 
 #define MACHINE_PIN  3 //SW02 = 5 //SW01 = 13 //LF = 3
 

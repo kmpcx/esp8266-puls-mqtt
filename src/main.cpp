@@ -14,6 +14,8 @@
 
 char NODE_ID[16];
 
+const char* SKETCH_VERSION = "19";
+
 #define LEDRED 0
 #define LEDGREEN 16
 
@@ -27,6 +29,7 @@ int oldInput = -1;
 bool wifiConnected = false;
 bool mqttConnected = false;
 int mqttDisconnects = 0;
+int wifiDisconnects = 0;
 bool updateOTA = false;
 bool updateOTAPlant = false;
 bool firstConnect = true;
@@ -169,6 +172,11 @@ void connectToMqtt() {
 void connectToWifi() {
   Serial.println("Connecting to Wi-Fi...");
 
+  wifiDisconnects++;
+  if(wifiDisconnects > 500){
+    ESP.restart();
+  }
+
   if(IPStatic){
     WiFi.config(staticIP, subnet, gateway, dns);
   }
@@ -181,6 +189,7 @@ void connectToWifi() {
     Serial.println(WiFi.localIP());
 
     wifiConnected = true;
+    wifiDisconnects = 0;
     connectToMqtt();
   }
 }
