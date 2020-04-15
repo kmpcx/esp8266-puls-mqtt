@@ -1,7 +1,7 @@
 // --------------------- Sensor Settings
 
 const char* MQTT_LOCATION = "ber";
-const char* PLANT = "SALB1M";
+const char* PLANT = "SAL";
 
 #define MACHINE_PIN  3 //SW02 = 5 //SW01 = 13 //LF = 3
 
@@ -44,3 +44,4 @@ bool usePing = true;
 bool useNTP = false; //Not in use
 bool useOTAonStart = false;
 bool checkWiFi = false; //Not in use
+bool testing = false; //Send pulse every second
