@@ -173,7 +173,9 @@ void connectToWifi() {
   Serial.println("Connecting to Wi-Fi...");
 
   wifiDisconnects++;
-  if(wifiDisconnects > 200){
+  Serial.print("wifiDisconnects: ");
+  Serial.println(wifiDisconnects);
+  if(wifiDisconnects > 30){
     ESP.restart();
   }
 
@@ -253,7 +255,9 @@ void onMqttConnect(bool sessionPresent) {
 void onMqttDisconnect(AsyncMqttClientDisconnectReason reason) {
   Serial.println("Disconnected from MQTT.");
   mqttDisconnects++;
-  if(mqttDisconnects > 200){
+  Serial.print("mqttDisconnects: ");
+  Serial.println(mqttDisconnects);
+  if(mqttDisconnects > 30){
     ESP.restart();
   }
   if (reason == AsyncMqttClientDisconnectReason::TCP_DISCONNECTED) {
