@@ -11,7 +11,7 @@
 // --------------------- Configuration ---------------------
 
 char NODE_ID[16];
-const char* VERSION = "S1.1";
+const char* VERSION = "S1.3";
 
 #define LEDRED 0
 #define LEDGREEN 16
