@@ -40,6 +40,8 @@ Ticker heartbeatTimer;
 Ticker testTimer;
 
 Ticker rebootTimer;
+int wifiDisconnects = 0;
+int mqttDisconnects = 0;
 
 String startDate = "0";
 
@@ -241,6 +243,12 @@ void connectToWifi()
   {
     delay(500);
     Serial.print(".");
+    wifiDisconnects++;
+    // Serial.print("wifiDisconnects: ");
+    // Serial.println(wifiDisconnects);
+    if(wifiDisconnects > 60){
+      ESP.restart();
+    }
   }
 
   Serial.println("WiFi connected");
@@ -295,9 +303,16 @@ void onMessage(char *topic, byte *payload, unsigned int len)
 boolean reconnectMQTT()
 {
   String clientId = NODE_ID;
+  Serial.print("Attempting MQTT connection...");
+  mqttDisconnects++;
+  // Serial.print("mqttDisconnects: ");
+  // Serial.println(mqttDisconnects);
+  if(mqttDisconnects > 10){
+    ESP.restart();
+  }
   if (mqttClient.connect(clientId.c_str(), MQTT_USERNAME, MQTT_PASSWORD, MQTT_TOPIC_ONLINE_WILL, 2, true, "0"))
   {
-    Serial.print("Attempting MQTT connection...");
+    
     Serial.println("connected");
     mqttClient.publish(MQTT_TOPIC_ONLINE_WILL, "1", true);
     if (firstConnect)

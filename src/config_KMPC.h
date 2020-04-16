@@ -28,7 +28,7 @@ IPAddress dns(10,49,13,1);  //DNS
 #define MQTT_HOST IPAddress(0,0,0,0)
 #define MQTT_PORT 1883
 #define MQTT_SECURE true
-#define MQTT_USERNAME "lf-self-mqtt-sensor"
+#define MQTT_USERNAME "lf-self-mqtt-sensor--"
 #define MQTT_PASSWORD "***REMOVED***"
 
 
