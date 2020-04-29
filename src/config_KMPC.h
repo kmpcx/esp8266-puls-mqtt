@@ -11,8 +11,10 @@ const int thresholdStoppedMinutes = 10; //When for X minutes no pulses detected
 
 // --------------------- Network Settings
 
-#define WIFI_SSID "KMPC"
-#define WIFI_PASSWORD "***REMOVED***"
+// #define WIFI_SSID "KMPC"
+// #define WIFI_PASSWORD "***REMOVED***"
+#define WIFI_SSID "PK"
+#define WIFI_PASSWORD ""
 
 bool IPStatic = false;
 IPAddress staticIP(10,49,13,103); //ESP static ip
@@ -38,4 +40,4 @@ bool usePing = true;
 bool useNTP = false; //Not in use
 bool useOTAonStart = false;
 bool checkWiFi = false;
-bool testing = true; //Send every second a pulse
+bool testing = false; //Send every second a pulse

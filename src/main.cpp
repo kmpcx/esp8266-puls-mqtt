@@ -187,8 +187,11 @@ void connectToWifi() {
   if (WiFiMulti.run() == WL_CONNECTED) {
     Serial.println("");
     Serial.println("WiFi connected");
-    Serial.println("IP address: ");
+    Serial.print("IP address: ");
     Serial.println(WiFi.localIP());
+    Serial.print("SSID: ");
+    Serial.println(WiFi.SSID());
+    
 
     wifiConnected = true;
     wifiDisconnects = 0;
@@ -244,6 +247,10 @@ void onMqttConnect(bool sessionPresent) {
   if(firstConnect){
     firstConnect = false;
     mqttClient.publish(MQTT_TOPIC_ONLINE, 2, true, startString);
+    strcpy(topic, MQTT_TOPIC_ONLINE);
+    strcat(topic, "/ssid");
+    String req = WiFi.SSID();
+    mqttClient.publish(topic, 2, false, (char*) req.c_str());
   }
 
 
@@ -316,7 +323,18 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
     String req = "Reboot Sensor";
     mqttClient.publish(MQTT_TOPIC_REQ, 1, false, (char*) req.c_str());
     ESP.restart();
-  } else if(strcmp(msg, (char*) "update") == 0){
+  } else if(strcmp(msg, (char*) "eraseConfig") == 0){
+    ESP.eraseConfig();
+    Serial.println("REQ: eraseConfig");
+    String req = "Erase Config Sensor";
+    mqttClient.publish(MQTT_TOPIC_REQ, 1, false, (char*) req.c_str());
+    //ESP.restart();
+  } else if(strcmp(msg, (char*) "ssid") == 0){
+    Serial.println("REQ: SSID");
+    String req = WiFi.SSID();
+    mqttClient.publish(MQTT_TOPIC_REQ, 1, false, (char*) req.c_str());
+    //ESP.restart();
+  }else if(strcmp(msg, (char*) "update") == 0){
     Serial.println("REQ: update");
     String req = "Start OTA Update";
     mqttClient.publish(MQTT_TOPIC_REQ, 1, false, (char*) req.c_str());
@@ -411,6 +429,9 @@ void setup() {
   mac.toCharArray(NODE_ID,16);
 
   mqttTopics();
+
+  
+  //WiFi.disconnect();
 
   // Setup the machine
   pinMode(MACHINE_PIN, INPUT);

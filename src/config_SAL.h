@@ -1,7 +1,7 @@
 // --------------------- Sensor Settings
 
 const char* MQTT_LOCATION = "ber";
-const char* PLANT = "SALB1M";
+const char* PLANT = "SAL-EXT";
 
 #define MACHINE_PIN  3 //SW02 = 5 //SW01 = 13 //LF = 3
 
@@ -11,8 +11,10 @@ const int thresholdStoppedMinutes = 10; //When for X minutes no pulses detected
 
 // --------------------- Network Settings
 
-#define WIFI_SSID "SSID"
-#define WIFI_PASSWORD "***REMOVED***"
+// #define WIFI_SSID "SSID"
+// #define WIFI_PASSWORD "***REMOVED***"
+#define WIFI_SSID "BUS-IOT-EXT"
+#define WIFI_PASSWORD ""
 
 bool IPStatic = false;
 IPAddress staticIP(10,49,13,103); //ESP static ip
@@ -43,5 +45,5 @@ IPAddress dns(10,49,13,1);  //DNS
 bool usePing = true;
 bool useNTP = false; //Not in use
 bool useOTAonStart = false;
-bool checkWiFi = false;
+bool checkWiFi = false; //Not in use
 bool testing = false; //Send every second a pulse
