@@ -457,7 +457,9 @@ void setup() {
   mqttClient.onMessage(onMqttMessage);
   mqttClient.onPublish(onMqttPublish);
   mqttClient.setServer(MQTT_HOST, MQTT_PORT);
-  mqttClient.setCredentials(MQTT_USERNAME, MQTT_PASSWORD);
+  if(MQTT_SECURE){
+    mqttClient.setCredentials(MQTT_USERNAME, MQTT_PASSWORD);
+  }
   mqttClient.setKeepAlive(5);
   mqttClient.setClientId(NODE_ID);
   mqttClient.setWill(MQTT_TOPIC_ONLINE_WILL, 2, true, "0", 0);
