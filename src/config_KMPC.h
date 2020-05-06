@@ -40,4 +40,8 @@ bool usePing = true;
 bool useNTP = false; //Not in use
 bool useOTAonStart = false;
 bool checkWiFi = false;
+
+bool resetWiFi = false; //Reset Sensor when connecting to old "oldSSID"
+const char* oldSSID = "";
+
 bool testing = false; //Send every second a pulse

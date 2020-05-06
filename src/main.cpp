@@ -14,7 +14,7 @@
 
 char NODE_ID[16];
 
-const char* SKETCH_VERSION = "19";
+const char* SKETCH_VERSION = "20";
 
 #define LEDRED 0
 #define LEDGREEN 16
@@ -191,6 +191,15 @@ void connectToWifi() {
     Serial.println(WiFi.localIP());
     Serial.print("SSID: ");
     Serial.println(WiFi.SSID());
+
+    if(resetWiFi){
+      if(WiFi.SSID() == oldSSID){
+        Serial.println("Detected old WiFi");
+        ESP.eraseConfig();
+        delay(250);
+        ESP.restart();
+      }
+    }
     
 
     wifiConnected = true;
