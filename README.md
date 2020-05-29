@@ -1,7 +1,7 @@
 ESP8266 Sketch for potential free contact sensor
 ======================
 
-This sketch is made to dected pulses on a potential free contact and send them to a MQTT broker.
+This sketch is made to dected pulses on a potential free contact and send them via a asyncronous to a MQTT broker.
 It can be used to monitor every kind of binary state. It can be machine to count parts, it can be a window to observe if it opens or it can be a relay from every controller.
 
 ## Table of content
@@ -32,6 +32,26 @@ IPAddress dns(10,49,13,1);  //DNS
 
 ### MQTT
 
+You need to define your MQTT broker.
+The MQTT Topics are defined in the main.ccp file.
+
+```
+#define MQTT_HOST IPAddress(0, 0, 0, 0)
+#define MQTT_PORT 1883
+#define MQTT_SECURE true
+#define MQTT_USERNAME "USER"
+#define MQTT_PASSWORD "PASSWORD"
+```
+
 ### OTA
 
+You need to define a location where the micro controller should ask for a update binary file.
+
+```
+#define updateServer "http://location.loc/"
+```
+
 ## PCB
+
+We designed a PCB board which fits perfectly the need for a potential free contact sensor.
+The source for it is located in the PCB folder.
