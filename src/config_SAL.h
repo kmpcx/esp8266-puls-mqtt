@@ -1,6 +1,6 @@
 // --------------------- Sensor Settings
 
-const char* MQTT_LOCATION = "ber";
+const char* MQTT_LOCATION = "berger";
 const char* PLANT = "SAL";
 
 #define MACHINE_PIN  3 //SW02 = 5 //SW01 = 13 //LF = 3
@@ -11,8 +11,8 @@ const int thresholdStoppedMinutes = 10; //When for X minutes no pulses detected
 
 // --------------------- Network Settings
 
-#define WIFI_SSID "SSID"
-#define WIFI_PASSWORD "***REMOVED***"
+#define WIFI_SSID "SELFINDWL"
+#define WIFI_PASSWORD ""
 
 bool IPStatic = false;
 IPAddress staticIP(10,49,13,103); //ESP static ip
@@ -25,17 +25,17 @@ IPAddress dns(10,49,13,1);  //DNS
 
 // --------------------- MQTT Settings
 
-// #define MQTT_HOST IPAddress(0,0,0,0)
+// #define MQTT_HOST IPAddress((0, 0, 0, 0))
 // #define MQTT_PORT 1883
 // #define MQTT_SECURE true
-// #define MQTT_USERNAME "ber"
-// #define MQTT_PASSWORD "***REMOVED***^"
+// #define MQTT_USERNAME "berger"
+// #define MQTT_PASSWORD ""
 
-#define MQTT_HOST IPAddress(0,0,0,0)
+#define MQTT_HOST IPAddress(0, 0, 0, 0)
 #define MQTT_PORT 1883
 #define MQTT_SECURE true
 #define MQTT_USERNAME "lf-self-mqtt-sensor"
-#define MQTT_PASSWORD "***REMOVED***"
+#define MQTT_PASSWORD ""
 
 
 // --------------------- Function Settings

@@ -12,9 +12,7 @@ const int thresholdStoppedMinutes = 10; //When for X minutes no pulses detected
 // --------------------- Network Settings
 
 #define WIFI_SSID "KMPC"
-#define WIFI_PASSWORD "***REMOVED***"
-// #define WIFI_SSID "PK"
-// #define WIFI_PASSWORD ""
+#define WIFI_PASSWORD ""
 
 bool IPStatic = false;
 IPAddress staticIP(10,49,13,103); //ESP static ip
@@ -27,11 +25,11 @@ IPAddress dns(10,49,13,1);  //DNS
 
 // --------------------- MQTT Settings
 
-#define MQTT_HOST IPAddress(0,0,0,0)
+#define MQTT_HOST IPAddress(0, 0, 0, 0)
 #define MQTT_PORT 1883
 #define MQTT_SECURE true
 #define MQTT_USERNAME "lf-cst-mqtt-sensor"
-#define MQTT_PASSWORD "***REMOVED***"
+#define MQTT_PASSWORD ""
 
 
 // --------------------- Function Settings
