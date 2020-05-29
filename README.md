@@ -4,6 +4,8 @@ ESP8266 Sketch for potential free contact sensor
 This sketch is made to dected pulses on a potential free contact and send them via a asyncronous to a MQTT broker.
 It can be used to monitor every kind of binary state. It can be machine to count parts, it can be a window to observe if it opens or it can be a relay from every controller.
 
+<img src="https://darwin.kmpc.de/wp-content/uploads/2020/05/IMG_20200529_154809-scaled.jpg" alt="drawing" width="400"/>
+
 ## Table of content
 - [Setup](#setup)
     - [WiFi](#wifi)
@@ -55,3 +57,5 @@ You need to define a location where the micro controller should ask for a update
 
 We designed a PCB board which fits perfectly the need for a potential free contact sensor.
 The source for it is located in the PCB folder.
+
+<img src="https://darwin.kmpc.de/wp-content/uploads/2020/05/IMG_20200529_154724-scaled.jpg" alt="drawing" width="400"/>
